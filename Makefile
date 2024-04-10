@@ -5,8 +5,6 @@ GO_BUILD=CGO_ENABLED=0 go build
 
 .PHONY: init
 init:
-	go get entgo.io/ent/cmd/ent@latest
-	go get github.com/google/wire/cmd/wire@latest
 	go mod download
 
 .PHONY: generate
