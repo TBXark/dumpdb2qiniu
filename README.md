@@ -15,7 +15,7 @@ go install github.com/TBXark/dumpdb2qiniu
 
 ### 配置文件
 
-```json
+```js
 {
   "databases": [
     {
