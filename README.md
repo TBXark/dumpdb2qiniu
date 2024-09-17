@@ -1,6 +1,6 @@
-# DumpDB2Qiniu
+# dumpdb2qiniu
 
-DumpDB2Qiniu is a tool that automatically backs up databases to Qiniu Cloud. It currently supports backing up all databases that can be backed up using mysqldump.
+**dumpdb2qiniu** is a tool that automatically backs up databases to Qiniu Cloud. It currently supports backing up all databases that can be backed up using mysqldump.
 
 ## Installation
 
@@ -17,7 +17,7 @@ docker run -d --name dumpdb2qiniu -v /path/to/config.json:/config.json ghcr.io/t
 ## Usage
 
 ```bash
-dumpdb2qiniu -c config.json
+dumpdb2qiniu -config /path/to/config.json
 ```
 
 ## Configuration
@@ -44,4 +44,4 @@ dumpdb2qiniu -c config.json
 
 ## License
 
-**DumpDB2Qiniu** is licensed under the MIT License. See the [LICENSE](./LICENSE) file for more details.
+**dumpdb2qiniu**  is licensed under the MIT License. See the [LICENSE](./LICENSE) file for more details.
