@@ -1,21 +1,28 @@
 # DumpDB2Qiniu
 
-这是一个自动备份数据库到七牛云的工具，当前支持所有能使用mysqldump备份的数据库。
+DumpDB2Qiniu is a tool that automatically backs up databases to Qiniu Cloud. It currently supports backing up all databases that can be backed up using mysqldump.
 
-### 使用
-```shell
+## Installation
+
+### Manual Build
+```bash
+go install github.com/TBXark/dumpdb2qiniu@latest
+```
+
+### Docker
+```bash
+docker run -d --name dumpdb2qiniu -v /path/to/config.json:/config.json ghcr.io/tbxark/dumpdb2qiniu:latest
+```
+
+## Usage
+
+```bash
 dumpdb2qiniu -c config.json
 ```
 
-### 安装
-1. 手动编译
-```shell
-go install github.com/TBXark/dumpdb2qiniu
-```
+## Configuration
 
-### 配置文件
-
-```js
+```json5
 {
   "databases": [
     {
@@ -24,13 +31,17 @@ go install github.com/TBXark/dumpdb2qiniu
       "password": "....",
       "database": "dbname"
     }
-  ], // 需要备份的数据库，支持多个
+  ],  // Multiple databases are supported
   "qiniu": {
     "access_key": "-e",
     "secret_key": "",
-    "bucket": "sqldump", // 为了保证数据安全，请使用私有空间
+    "bucket": "sqldump", // For security, please use a private bucket
     "file_prefix": "backup/serverA/"
   },
-  "cron": "" // 需要定时执行的时间，格式为cron表达式
+  "cron": "" // Cron expression for scheduled execution
 }
 ```
+
+## License
+
+**DumpDB2Qiniu** is licensed under the MIT License. See the [LICENSE](./LICENSE) file for more details.

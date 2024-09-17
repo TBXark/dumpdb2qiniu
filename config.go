@@ -2,8 +2,11 @@ package main
 
 import (
 	"encoding/json"
-	"log"
+	"fmt"
+	"io"
+	"net/http"
 	"os"
+	"strings"
 )
 
 type Config struct {
@@ -12,15 +15,28 @@ type Config struct {
 	Cron      string           `json:"cron"`
 }
 
-func loadConfig(file *string) Config {
-	fileRaw, err := os.ReadFile(*file)
-	if err != nil {
-		log.Fatalf("Read config file failed: %s", err)
+func loadConfig(path string) (*Config, error) {
+	var body []byte
+	var err error
+
+	if strings.HasPrefix(path, "http") {
+		resp, httpErr := http.Get(path)
+		if httpErr != nil {
+			return nil, fmt.Errorf("failed to fetch config: %w", httpErr)
+		}
+		defer resp.Body.Close()
+		body, err = io.ReadAll(resp.Body)
+	} else {
+		body, err = os.ReadFile(path)
 	}
 
-	var config Config
-	if e := json.Unmarshal(fileRaw, &config); e != nil {
-		log.Fatalf("Parse config file failed: %s", e)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read config: %w", err)
 	}
-	return config
+	var conf Config
+	err = json.Unmarshal(body, &conf)
+	if err != nil {
+		return nil, err
+	}
+	return &conf, nil
 }

@@ -39,18 +39,22 @@ func start(conf *Config) {
 func main() {
 	conf := flag.String("config", "config.json", "config file path")
 	flag.Parse()
-	config := loadConfig(conf)
+	config, err := loadConfig(*conf)
+
+	if err != nil {
+		log.Fatalf("Load config failed: %s", err)
+	}
 
 	if config.Cron != "" {
 		task := cron.New()
 		_, e := task.AddFunc(config.Cron, func() {
-			start(&config)
+			start(config)
 		})
 		if e != nil {
 			log.Fatalf("Run cron task failed: %s", e)
 		}
 		task.Run()
 	} else {
-		start(&config)
+		start(config)
 	}
 }

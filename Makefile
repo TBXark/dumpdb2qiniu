@@ -13,7 +13,7 @@ generate:
 
 .PHONY: build
 build:
-	$(GO_BUILD) -o ./build/$(CURRENT_OS)_$(CURRENT_ARCH)/ ./...
+	$(GO_BUILD) -o ./build/ ./...
 
 .PHONY: buildLinuxX86
 buildLinuxX86:
@@ -25,3 +25,7 @@ buildWindowsX86:
 
 .PHONY: buildAll
 buildAll: buildLinuxX86 buildWindowsX86 build
+
+.PHONY: buildImage
+buildImage:
+	docker buildx build --platform=linux/amd64,linux/arm64 -t ghcr.io/tbxark/dumpdb2qiniu:latest . --push --provenance=false
